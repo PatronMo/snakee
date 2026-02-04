@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Fun Game</title> <!-- Innocent title -->
+<title>Fun Game</title>
 <style>
     body {
         margin: 0;
@@ -14,16 +14,14 @@
         height: 100vh;
         overflow: hidden;
     }
-
     #game {
         position: relative;
         width: 800px;
         height: 600px;
-        background: #222; /* dark background so dot is visible */
+        background: #222;
         border: 2px solid white;
         overflow: hidden;
     }
-
     #dot {
         position: absolute;
         width: 50px;
@@ -32,9 +30,7 @@
         border-radius: 50%;
         top: 275px;
         left: 375px;
-        display: block;
     }
-
     #flash {
         position: absolute;
         width: 100%;
@@ -45,7 +41,6 @@
         opacity: 0;
         pointer-events: none;
     }
-
     #jumpscare {
         position: absolute;
         width: 800px;
@@ -60,14 +55,11 @@
 <div id="game">
     <div id="dot"></div>
     <div id="flash"></div>
-    <!-- Example scary image encoded as base64 so no external file needed -->
-    <img id="jumpscare" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAwAAAAQACAIAAABg... (replace with your own scary image base64)" alt="Surprise!" />
+    <img id="jumpscare" src="https://i.postimg.cc/J79pHDHt/monster-scared.gif" alt="Scary!" />
 </div>
 
-<!-- Example scream sound encoded in base64 -->
-<audio id="scream">
-    <source src="data:audio/mpeg;base64,//uQxAA... (replace with your own scream mp3 base64)" type="audio/mpeg">
-</audio>
+<!-- Placeholder scream MP3 -->
+<audio id="scream" src="https://www.soundjay.com/horror/sounds/scream-02.mp3"></audio>
 
 <script>
 const dot = document.getElementById('dot');
@@ -78,7 +70,7 @@ const flash = document.getElementById('flash');
 let size = 50;
 let growing = true;
 
-// Grow dot
+// Grow the red dot smoothly
 const growInterval = setInterval(() => {
     if (growing) {
         size += 10;
@@ -87,6 +79,7 @@ const growInterval = setInterval(() => {
         dot.style.top = 300 - size/2 + 'px';
         dot.style.left = 400 - size/2 + 'px';
 
+        // When dot covers the screen
         if (size >= 800) {
             triggerJumpscare();
             growing = false;
@@ -96,11 +89,10 @@ const growInterval = setInterval(() => {
 }, 50);
 
 function triggerJumpscare() {
-    flash.style.opacity = 1;
-    jumpscare.style.display = 'block';
-    scream.play();
-
-    setTimeout(() => flash.style.opacity = 0, 200);
+    flash.style.opacity = 1;        // White flash
+    jumpscare.style.display = 'block'; // Show scary GIF
+    scream.play();                   // Play scream sound
+    setTimeout(() => flash.style.opacity = 0, 200); // Hide flash quickly
 }
 </script>
 </body>
