@@ -14,6 +14,7 @@
         height: 100vh;
         overflow: hidden;
     }
+
     #game {
         position: relative;
         width: 800px;
@@ -22,6 +23,7 @@
         border: 2px solid white;
         overflow: hidden;
     }
+
     #dot {
         position: absolute;
         width: 50px;
@@ -31,16 +33,17 @@
         top: 275px;
         left: 375px;
     }
+
     #flash {
         position: absolute;
         width: 100%;
         height: 100%;
-        background: white;
         top: 0;
         left: 0;
         opacity: 0;
         pointer-events: none;
     }
+
     #jumpscare {
         position: absolute;
         width: 800px;
@@ -49,6 +52,7 @@
         left: 0;
         display: none;
     }
+
 </style>
 </head>
 <body>
@@ -58,8 +62,7 @@
     <img id="jumpscare" src="https://i.postimg.cc/J79pHDHt/monster-scared.gif" alt="Scary!" />
 </div>
 
-<!-- Placeholder scream MP3 -->
-<audio id="scream" src="https://www.soundjay.com/horror/sounds/scream-02.mp3"></audio>
+<audio id="scream" src="sandbox:/mnt/data/dragon-studio-scary-scream-401725.mp3"></audio>
 
 <script>
 const dot = document.getElementById('dot');
@@ -70,7 +73,7 @@ const flash = document.getElementById('flash');
 let size = 50;
 let growing = true;
 
-// Grow the red dot smoothly
+// Grow the dot smoothly
 const growInterval = setInterval(() => {
     if (growing) {
         size += 10;
@@ -79,7 +82,6 @@ const growInterval = setInterval(() => {
         dot.style.top = 300 - size/2 + 'px';
         dot.style.left = 400 - size/2 + 'px';
 
-        // When dot covers the screen
         if (size >= 800) {
             triggerJumpscare();
             growing = false;
@@ -89,10 +91,23 @@ const growInterval = setInterval(() => {
 }, 50);
 
 function triggerJumpscare() {
-    flash.style.opacity = 1;        // White flash
-    jumpscare.style.display = 'block'; // Show scary GIF
-    scream.play();                   // Play scream sound
-    setTimeout(() => flash.style.opacity = 0, 200); // Hide flash quickly
+    jumpscare.style.display = 'block';
+    scream.play();
+
+    // Flicker neon effect
+    let flickerCount = 0;
+    const flickerInterval = setInterval(() => {
+        const r = Math.floor(Math.random()*256);
+        const g = Math.floor(Math.random()*256);
+        const b = Math.floor(Math.random()*256);
+        flash.style.background = `rgb(${r},${g},${b})`;
+        flash.style.opacity = flash.style.opacity == 1 ? 0 : 1;
+        flickerCount++;
+        if(flickerCount > 10){
+            clearInterval(flickerInterval);
+            flash.style.opacity = 0;
+        }
+    }, 80);
 }
 </script>
 </body>
