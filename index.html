@@ -3,16 +3,105 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Fun Game</title>
-<link rel="stylesheet" href="style.css">
+<title>Fun Game</title> <!-- Innocent title -->
+<style>
+    body {
+        margin: 0;
+        background: black;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    #game {
+        position: relative;
+        width: 800px;
+        height: 600px;
+        background: #222; /* dark background so dot is visible */
+        border: 2px solid white;
+        overflow: hidden;
+    }
+
+    #dot {
+        position: absolute;
+        width: 50px;
+        height: 50px;
+        background: red;
+        border-radius: 50%;
+        top: 275px;
+        left: 375px;
+        display: block;
+    }
+
+    #flash {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: white;
+        top: 0;
+        left: 0;
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    #jumpscare {
+        position: absolute;
+        width: 800px;
+        height: 600px;
+        top: 0;
+        left: 0;
+        display: none;
+    }
+</style>
 </head>
 <body>
 <div id="game">
     <div id="dot"></div>
     <div id="flash"></div>
-    <img id="jumpscare" src="assets/jumpscare.png" alt="Surprise!" />
+    <!-- Example scary image encoded as base64 so no external file needed -->
+    <img id="jumpscare" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAwAAAAQACAIAAABg... (replace with your own scary image base64)" alt="Surprise!" />
 </div>
-<audio id="scream" src="assets/scream.mp3"></audio>
-<script src="script.js"></script>
+
+<!-- Example scream sound encoded in base64 -->
+<audio id="scream">
+    <source src="data:audio/mpeg;base64,//uQxAA... (replace with your own scream mp3 base64)" type="audio/mpeg">
+</audio>
+
+<script>
+const dot = document.getElementById('dot');
+const jumpscare = document.getElementById('jumpscare');
+const scream = document.getElementById('scream');
+const flash = document.getElementById('flash');
+
+let size = 50;
+let growing = true;
+
+// Grow dot
+const growInterval = setInterval(() => {
+    if (growing) {
+        size += 10;
+        dot.style.width = size + 'px';
+        dot.style.height = size + 'px';
+        dot.style.top = 300 - size/2 + 'px';
+        dot.style.left = 400 - size/2 + 'px';
+
+        if (size >= 800) {
+            triggerJumpscare();
+            growing = false;
+            clearInterval(growInterval);
+        }
+    }
+}, 50);
+
+function triggerJumpscare() {
+    flash.style.opacity = 1;
+    jumpscare.style.display = 'block';
+    scream.play();
+
+    setTimeout(() => flash.style.opacity = 0, 200);
+}
+</script>
 </body>
 </html>
