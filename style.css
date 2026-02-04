@@ -12,7 +12,7 @@ body {
     position: relative;
     width: 800px;
     height: 600px;
-    background: url('assets/creepy-room.jpg') no-repeat center/cover;
+    background: #222; /* simple dark background so you can see the dot */
     border: 2px solid white;
     overflow: hidden;
 }
@@ -25,6 +25,7 @@ body {
     border-radius: 50%;
     top: 275px;
     left: 375px;
+    display: block; /* make sure it’s visible */
 }
 
 #flash {
@@ -46,3 +47,4 @@ body {
     left: 0;
     display: none;
 }
+
